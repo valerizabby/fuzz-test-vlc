@@ -1,11 +1,14 @@
 # Процессы безопасной разработки ПО
 ### SberTech X MIPT
-## Фаззинг тестирование VLC Media Player
+
+## 1. Суммирование файлов исходного кода
+TODO
+
+## 2. Фаззинг тестирование VLC Media Player
 
 ### Установка VLC Media Player
 
 - ОС: Ubuntu 22.04 TLS
-- VLC: 3.0.7.1
 
 Клонируем репозиторий с VLC:
 ```bash
@@ -62,7 +65,6 @@ export LD_LIBRARY_PATH=~/fuzzing_vlc/vlc/lib:~/fuzzing_vlc/vlc/src/.libs:$LD_LIB
 ```c 
 #include <stdio.h>
 #include <stdint.h>
-#include <unistd.h>  // Для функции sleep()
 #include <vlc/vlc.h>
 
 int main(int argc, char **argv) {
@@ -171,4 +173,11 @@ echo performance | sudo tee cpu*/cpufreq/scaling_governor
 afl-fuzz -t 50 -D -i ~/fuzzing_vlc/corpus -o ~/fuzzing_vlc/findings -- ~/fuzzing_vlc/fuzzers/vlc_afl_fuzzer @@
 ```
 
-![fuzzing_1](images/img_3.png)
+![fuzzing_1](images/img_2.png)
+
+Довольно ожидаемо, на актуальной версии VLC за 3 с половиной часа мы ничего не нашли. Ну и хорошо. 
+
+
+## 3. Сбор покрытия по результатам фаззинг-тестирования
+
+TODO
