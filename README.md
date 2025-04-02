@@ -109,4 +109,21 @@ afl-fuzz -i corpus -o findings_test -- ./vlc/test/vlc-demux-run @@
 
 ## 3. Сбор покрытия по результатам фаззинг-тестирования
 
-TODO
+Сохраняем результаты из findings, чтобы собрать по ним покрытие
+
+```bash
+mkdir ~/fuzzing_vlc/coverage_inputs
+cp ~/fuzzing_vlc/findings/master/queue/id* ~/fuzzing_vlc/coverage_inputs/
+```
+
+Собираем покрытие скриптом `collect_coverage.sh`, результат:
+
+![123](images/img_2.png)
+
+Посчитаем общее покрытие:
+
+```bash
+cat coverage_map/map_*.txt | cut -d ' ' -f 1 | sort -n | uniq | wc -l
+```
+
+Это показывает общее количество уникальных «ребёр» покрытия (переключений между блоками кода). Соберем так же покрытие с помощью afl-cov

@@ -1,0 +1,9 @@
+# environment variables:
+AFL_CUSTOM_INFO_PROGRAM=./vlc/test/vlc-demux-run
+AFL_CUSTOM_INFO_PROGRAM_ARGV=@@
+AFL_CUSTOM_INFO_OUT=findings_test/default
+AFL_IGNORE_PROBLEMS=1
+AFL_LLVM_ALLOWLIST=/home/valerizab/fuzzing_vlc/vlc/Partial_instrumentation.txt
+AFL_USE_ASAN=1
+# command line:
+'afl-fuzz' '-i' 'corpus' '-o' 'findings_test' '--' './vlc/test/vlc-demux-run' '@@'
