@@ -116,15 +116,26 @@ mkdir ~/fuzzing_vlc/coverage_inputs
 cp ~/fuzzing_vlc/findings/master/queue/id* ~/fuzzing_vlc/coverage_inputs/
 ```
 
-Собираем покрытие скриптом `collect_coverage.sh`, результат:
+Для сбора построчного покрытия воспользуемся туториалом: https://eax.me/c-code-coverage/
 
-![123](images/img_2.png)
+Понадобится выполнить следующие шаги:
+1. Пересобрать бинарь проекта с флагами:
+    ```
+    CFLAGS="-fprofile-arcs -ftest-coverage"
+    LDFLAGS="-lgcov"
+    ```
+2. Сделать `make check` (генерация .gcda файлов).
+3. Агрегировать данные:
+    ```
+    sudo ln -s /usr/local/bin/gcov49 /usr/local/bin/gcov
+    lcov --directory . --capture --output-file coverage.info
+    ```
+4. Сгенерировать html:
+    ```
+    mkdir ../cov-report
+    genhtml -o ../cov-report/ coverage.info
+    ```
+   
+Результаты генерации можно найти в файле coverage.info и index.html:
 
-Посчитаем общее покрытие:
-
-```bash
-cat coverage_map/map_*.txt | cut -d ' ' -f 1 | sort -n | uniq | wc -l
-```
-
-Это показывает общее количество уникальных «ребёр» покрытия (переключений между блоками кода).
-В директории coverage_map лежат пары "номер строки в исходном коде" -> "сколько раз была выполнена строка".
+![cov](images/coverage.png)
